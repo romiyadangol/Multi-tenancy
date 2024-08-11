@@ -1,10 +1,11 @@
 class TenanciesController < ApplicationController
   before_action :set_tenancy, only: %i[ show edit update destroy ]
-
+  before_action :authorize_member, only: %i[ show edit update destroy ]
   # GET /tenancies or /tenancies.json
   def index
-    @tenancies = Tenancy.all
+    @tenancies = current_user.tenancies
   end
+  
 
   # GET /tenancies/1 or /tenancies/1.json
   def show
@@ -25,6 +26,7 @@ class TenanciesController < ApplicationController
 
     respond_to do |format|
       if @tenancy.save
+        @tenancy.members.create(user: current_user, roles: { owner: true })
         format.html { redirect_to tenancy_url(@tenancy), notice: "Tenancy was successfully created." }
         format.json { render :show, status: :created, location: @tenancy }
       else
@@ -58,6 +60,9 @@ class TenanciesController < ApplicationController
   end
 
   private
+    def authorize_member
+    return redirect_to root_path, alert: "You are not a member of this tenancy" unless @tenancy.members.exists?(user: current_user)
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_tenancy
       @tenancy = Tenancy.find(params[:id])

@@ -13,11 +13,11 @@
 ActiveRecord::Schema[7.2].define(version: 2024_08_11_040825) do
   create_table "members", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "tenant_id", null: false
+    t.integer "tenancy_id", null: false
     t.json "roles", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tenant_id"], name: "index_members_on_tenant_id"
+    t.index ["tenancy_id"], name: "index_members_on_tenancy_id"
     t.index ["user_id"], name: "index_members_on_user_id"
   end
 
@@ -39,6 +39,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_11_040825) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "members", "tenants"
+  add_foreign_key "members", "tenancies"
   add_foreign_key "members", "users"
 end

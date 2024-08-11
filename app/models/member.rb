@@ -1,4 +1,4 @@
 class Member < ApplicationRecord
   belongs_to :user
-  belongs_to :tenant
+  belongs_to :tenancy
 end
