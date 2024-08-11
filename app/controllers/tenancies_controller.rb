@@ -9,6 +9,7 @@ class TenanciesController < ApplicationController
 
   # GET /tenancies/1 or /tenancies/1.json
   def show
+    @tenancy = Tenancy.find(params[:id])
   end
 
   # GET /tenancies/new
