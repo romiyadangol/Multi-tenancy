@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Tenancies" %>
+
+<h1>Tenancies</h1>
+
+<div id="tenancies">
+  <% @tenancies.each do |tenancy| %>
+    <%= render tenancy %>
+    <p>
+      <%= link_to "Show this tenancy", tenancy %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New tenancy", new_tenancy_path %>
